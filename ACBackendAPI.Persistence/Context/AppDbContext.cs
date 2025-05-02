@@ -1,38 +1,52 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ACBackendAPI.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
-namespace ACBackendAPI.Persistence.Context
+
+public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
-    public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Admin> Admins { get; set; }
+    public DbSet<Guardian> Guardians { get; set; }
+    public DbSet<AcademicInformation> AcademicInformations { get; set; }
+    public DbSet<Programme> Programmes { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
+        base.OnModelCreating(modelBuilder);
 
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Admin> Admins { get; set; }
+        // Configure relationships
+        modelBuilder.Entity<Student>()
+            .HasOne(s => s.Guardian)
+            .WithMany(g => g.Students)
+            .HasForeignKey(s => s.GuardianId);
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+        modelBuilder.Entity<Student>()
+            .HasOne(s => s.ApplicationUser)
+            .WithOne(au => au.Student)
+            .HasForeignKey<Student>(s => s.ApplicationUserId);
 
-            builder.Entity<Student>()
-                .HasOne(s => s.User)
-                .WithOne(u => u.StudentProfile)
-                .HasForeignKey<Student>(s => s.UserId);
+        modelBuilder.Entity<Admin>()
+            .HasOne(a => a.ApplicationUser)
+            .WithOne(au => au.Admin)
+            .HasForeignKey<Admin>(a => a.ApplicationUserId);
 
-            builder.Entity<Teacher>()
-                .HasOne(t => t.User)
-                .WithOne(u => u.TeacherProfile)
-                .HasForeignKey<Teacher>(t => t.UserId);
+        modelBuilder.Entity<AcademicInformation>()
+            .HasOne(ai => ai.Programme)
+            .WithMany(p => p.AcademicInformation)
+            .HasForeignKey(ai => ai.ProgrammeId);
 
-            builder.Entity<Admin>()
-                .HasOne(a => a.User)
-                .WithOne(u => u.AdminProfile)
-                .HasForeignKey<Admin>(a => a.UserId);
-        }
+        modelBuilder.Entity<AcademicInformation>()
+            .HasOne(ai => ai.Student)
+            .WithOne(s => s.AcademicInformation)
+            .HasForeignKey<AcademicInformation>(ai => ai.StudentId);
+
+        // Unique constraints
+        modelBuilder.Entity<Student>().HasIndex(s => s.Email).IsUnique();
+        modelBuilder.Entity<Admin>().HasIndex(a => a.Email).IsUnique();
+        modelBuilder.Entity<Guardian>().HasIndex(g => g.Email).IsUnique();
     }
 }

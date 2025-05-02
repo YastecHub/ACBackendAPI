@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ACBackendAPI.Application\ACBackendAPI.Application.csproj" />
     <ProjectReference Include="..\ACBackendAPI.Domain\ACBackendAPI.Domain.csproj" />
   </ItemGroup>
 

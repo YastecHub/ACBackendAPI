@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ACBackendAPI.Domain\ACBackendAPI.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

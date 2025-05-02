@@ -4,11 +4,8 @@ namespace ACBackendAPI.Domain.Entities
 {
     public class AcademicInformation : BaseEntity
     {
-        public Department Department { get; set; } 
+        public Department Department { get; set; }
         public string DepartmentDesc { get; set; }
-
-        public LessonType LessonType { get; set; }
-        public string LessonTypeDesc { get; set; }
 
         public string CourseOfStudy { get; set; }
 
@@ -21,7 +18,6 @@ namespace ACBackendAPI.Domain.Entities
         public AcademicInformation()
         {
             DepartmentDesc = Department.ToString();
-            LessonTypeDesc = LessonType.ToString();
         }
     }
 }
