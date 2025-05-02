@@ -8,8 +8,8 @@ public class GuardianDto
     [JsonPropertyName("email")]
     public string Email { get; set; }
 
-    [JsonPropertyName("occupation")]
-    public string Occupation { get; set; }
+    [JsonPropertyName("relationship")]
+    public string Relationship { get; set; }
 
     [JsonPropertyName("phoneNumber")]
     public string PhoneNumber { get; set; }

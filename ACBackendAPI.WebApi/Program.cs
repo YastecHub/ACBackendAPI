@@ -1,9 +1,12 @@
+using ACBackendAPI.Application.Dtos;
 using ACBackendAPI.Application.Interfaces.IRepositories;
 using ACBackendAPI.Application.Interfaces.IServices;
+using ACBackendAPI.Application.Validators;
 using ACBackendAPI.Domain.Entities;
 using ACBackendAPI.Persistence.Context;
 using ACBackendAPI.Persistence.Repositories.Repository;
 using ACBackendAPI.Persistence.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,6 +40,15 @@ builder.Services.AddScoped(typeof(IAsyncRepository<,>), typeof(EfRepository<,>))
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProgrammeService, ProgrammeService>();
 
+builder.Services.AddTransient<IValidator<StudentDto>, StudentDtoValidator>();
+builder.Services.AddTransient<IValidator<AdminDto>, AdminDtoValidator>();
+builder.Services.AddTransient<IValidator<GuardianDto>, GuardianDtoValidator>();
+builder.Services.AddTransient<IValidator<AcademicInformationDto>, AcademicInformationDtoValidator>();
+builder.Services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
+builder.Services.AddTransient<IValidator<CreateProgrammeDto>, CreateProgrammeDtoValidator>();
+builder.Services.AddTransient<IValidator<UpdateProgrammeDto>, UpdateProgrammeDtoValidator>();
+
+
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
@@ -44,15 +56,14 @@ var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityR
 await RoleSeeder.SeedRolesAsync(roleManager);
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "ACBackendAPI v1");
-        options.DocumentTitle = "AC Backend API Docs";
-    });
-}
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ACBackendAPI v1");
+    options.DocumentTitle = "AC Backend API Docs";
+});
+
 
 app.UseCors("AllowAll");
 

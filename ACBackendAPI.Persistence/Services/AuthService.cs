@@ -92,7 +92,8 @@ namespace ACBackendAPI.Persistence.Services
                 {
                     Success = false,
                     Message = "Student Registration failed",
-                    Data = null
+                    Data = null,
+                    Errors = result.Errors.Select(e => e.Description).ToList()
                 };
             }
 
@@ -104,7 +105,7 @@ namespace ACBackendAPI.Persistence.Services
                 PhoneNumber = studentDto.GuardianInformation.PhoneNumber,
                 Email = studentDto.GuardianInformation.Email,
                 Address = studentDto.GuardianInformation.Address,
-                Occupation = studentDto.GuardianInformation.Occupation,
+                RelationShip = studentDto.GuardianInformation.Relationship,
             };
 
             _context.Guardians.Add(guadian);
@@ -144,7 +145,8 @@ namespace ACBackendAPI.Persistence.Services
             {
                 Success = true,
                 Message = "Student registered successfully",
-                Data = studentDto
+                Data = studentDto,
+                Errors = result.Errors.Select(e => e.Description).ToList()
             };
         }
 

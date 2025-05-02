@@ -1,6 +1,5 @@
 ﻿using ACBackendAPI.Application.Dtos;
 using ACBackendAPI.Application.Interfaces.IServices;
-using ACBackendAPI.Persistence.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACBackendAPI.WebApi.Controllers
