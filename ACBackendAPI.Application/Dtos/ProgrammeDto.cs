@@ -19,12 +19,5 @@
         public string ProgrammeName { get; set; }
         public long ProgrammeFee { get; set; }
     }
-
-    public class ProgrammeResponseDto
-    {
-        public Guid Id { get; set; }
-        public string ProgrammeName { get; set; }
-        public long ProgrammeFee { get; set; }
-    }
 }
 
