@@ -56,6 +56,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddValidatorsFromAssemblyContaining<StudentDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateProgrammeDtoValidator>();
+
+
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -63,10 +67,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-//builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-//    .AddEntityFrameworkStores<AppDbContext>()
-//    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthorization()
     .AddIdentityApiEndpoints<ApplicationUser>()
