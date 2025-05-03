@@ -1,13 +1,13 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ACBackendAPI.Application.Interfaces.IServices;
 using ACBackendAPI.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace ACBackendAPI.Persistence.Services;
-public class JwtService
+public class JwtService : IJwtService
 {
     private readonly IConfiguration _config;
 
