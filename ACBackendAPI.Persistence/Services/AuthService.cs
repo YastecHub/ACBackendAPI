@@ -12,12 +12,14 @@ namespace ACBackendAPI.Persistence.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly AppDbContext _context;
+        private readonly JwtService _jwtService;
 
-        public AuthService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager, AppDbContext context)
+        public AuthService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager, AppDbContext context, JwtService jwtService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
+            _jwtService = jwtService;
         }
 
         public async Task<BaseResponse<AdminDto>> RegisterAdmin(AdminDto adminDto)
@@ -162,6 +164,7 @@ namespace ACBackendAPI.Persistence.Services
                 };
 
             var roles = await _userManager.GetRolesAsync(user);
+            var tokens = _jwtService.GenerateToken(user, roles.ToList());
 
             return new BaseResponse<LoginResponseDto>
             {
@@ -170,6 +173,7 @@ namespace ACBackendAPI.Persistence.Services
                 Data = new LoginResponseDto
                 {
                     Email = user.Email,
+                    Token = tokens,
                     Roles = roles.ToList()
                 }
             };
