@@ -9,5 +9,6 @@ namespace ACBackendAPI.Application.Dtos
 
         [JsonPropertyName("roles")]
         public List<string> Roles { get; set; }
+        public string Token { get; set; }
     }
 }
