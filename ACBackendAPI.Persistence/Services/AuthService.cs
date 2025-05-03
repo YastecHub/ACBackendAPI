@@ -12,9 +12,9 @@ namespace ACBackendAPI.Persistence.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly AppDbContext _context;
-        private readonly JwtService _jwtService;
+        private readonly IJwtService _jwtService;
 
-        public AuthService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager, AppDbContext context, JwtService jwtService)
+        public AuthService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager, AppDbContext context, IJwtService jwtService)
         {
             _userManager = userManager;
             _roleManager = roleManager;

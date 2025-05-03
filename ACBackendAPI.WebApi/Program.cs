@@ -73,6 +73,7 @@ builder.Services.AddScoped(typeof(IAsyncRepository<,>), typeof(EfRepository<,>))
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProgrammeService, ProgrammeService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddTransient<IValidator<StudentDto>, StudentDtoValidator>();
 builder.Services.AddTransient<IValidator<AdminDto>, AdminDtoValidator>();
