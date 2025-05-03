@@ -22,7 +22,8 @@ namespace ACBackendAPI.Application.Validators
                 .NotEmpty().WithMessage("Last name is required.");
 
             RuleFor(x => x.PhoneNumber)
-                .NotEmpty().WithMessage("Phone number is required.");
+                .NotEmpty().WithMessage("Phone number is required.")
+                .Matches(@"^\+?\d{10,15}$").WithMessage("Phone number must be between 10 and 15 digits and contain only numbers.");
 
             RuleFor(x => x.Gender)
                 .NotEmpty().WithMessage("Gender is required.");
