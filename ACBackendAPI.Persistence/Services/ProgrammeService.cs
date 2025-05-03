@@ -1,4 +1,4 @@
-﻿using ACBackendAPI.Application.Common.Responses.ACBackendAPI.Application.Common.Responses;
+﻿using ACBackendAPI.Application.Common.Responses;
 using ACBackendAPI.Application.Dtos;
 using ACBackendAPI.Application.Interfaces.IRepositories;
 using ACBackendAPI.Application.Interfaces.IServices;
@@ -14,6 +14,7 @@ namespace ACBackendAPI.Persistence.Services
         {
             _programmeRepository = programmeRepository;
         }
+
         public async Task<BaseResponse<ProgrammeDto>> CreateProgramme(CreateProgrammeDto createProgrammeDto)
         {
             var programme = new Programme
@@ -26,112 +27,66 @@ namespace ACBackendAPI.Persistence.Services
             await _programmeRepository.AddAsync(programme);
             await _programmeRepository.SaveChangesAsync();
 
-            return new BaseResponse<ProgrammeDto>
+            var data = new ProgrammeDto
             {
-                Data = new ProgrammeDto
-                {
-                    Id = programme.Id,
-                    ProgrammeName = programme.ProgrammeName,
-                    ProgrammeFee = programme.ProgrammeFee
-                },
-                Success = true,
-                Message = "Programme created successfully"
+                Id = programme.Id,
+                ProgrammeName = programme.ProgrammeName,
+                ProgrammeFee = programme.ProgrammeFee
             };
+
+            return BaseResponse<ProgrammeDto>.Succes(data, "Programme created successfully", 201);
         }
 
         public async Task<BaseResponse<bool>> DeleteProgramme(Guid id)
         {
             var programme = await _programmeRepository.GetByIdAsync(id);
             if (programme == null)
-                return new BaseResponse<bool>
-                {
-                    Success = false,
-                };
+                return BaseResponse<bool>.Failure("Programme not found", statusCode: 404);
 
             _programmeRepository.Delete(programme);
             await _programmeRepository.SaveChangesAsync();
-            return new BaseResponse<bool>
-            {
-                Success = true,
-                Message = "Programme deleted successfully",
-                StatusCode = 200,
-                Data = true
-            };
+
+            return BaseResponse<bool>.Succes(true, "Programme deleted successfully", 200);
         }
 
         public async Task<BaseResponse<List<ProgrammeDto>>> GetAllProgrammes()
         {
             var programmes = await _programmeRepository.ListAllAsync();
 
-
-            var dtoList = programmes.Select(p => new ProgrammeDto
+            var programmeDtos = programmes.Select(p => new ProgrammeDto
             {
                 Id = p.Id,
                 ProgrammeName = p.ProgrammeName,
                 ProgrammeFee = p.ProgrammeFee
             }).ToList();
 
+            if (!programmeDtos.Any())
+                return BaseResponse<List<ProgrammeDto>>.Failure("No programmes found", statusCode: 404);
 
-            if (dtoList == null || dtoList.Count == 0)
-            {
-                return new BaseResponse<List<ProgrammeDto>>
-                {
-                    Success = false,
-                    Message = "No programmes found.",
-                    StatusCode = 404
-                };
-            }
-
-
-            return new BaseResponse<List<ProgrammeDto>>
-            {
-                Data = dtoList,
-                Success = true,
-                Message = "Programmes retrieved successfully",
-                StatusCode = 200
-            };
-
+            return BaseResponse<List<ProgrammeDto>>.Succes(programmeDtos, "Programmes retrieved successfully", 200);
         }
 
         public async Task<BaseResponse<ProgrammeDto>> GetProgrammeById(Guid id)
         {
             var programme = await _programmeRepository.GetByIdAsync(id);
             if (programme == null)
-            {
-                return new BaseResponse<ProgrammeDto>
-                {
-                    Success = false,
-                    Message = "",
-                    Data = null
-                };
-            }
+                return BaseResponse<ProgrammeDto>.Failure("Programme not found", statusCode: 404);
 
-            return new BaseResponse<ProgrammeDto>
+            var data = new ProgrammeDto
             {
-                Success = true,
-                Message = "Programme retrieved successfully",
-                StatusCode = 200,
-                Data = new ProgrammeDto
-                {
-                    Id = programme.Id,
-                    ProgrammeName = programme.ProgrammeName,
-                    ProgrammeFee = programme.ProgrammeFee
-                }
+                Id = programme.Id,
+                ProgrammeName = programme.ProgrammeName,
+                ProgrammeFee = programme.ProgrammeFee
             };
+
+            return BaseResponse<ProgrammeDto>.Succes(data, "Programme retrieved successfully", 200);
         }
 
         public async Task<BaseResponse<ProgrammeDto>> UpdateProgramme(UpdateProgrammeDto updateProgrammeDto)
         {
             var programme = await _programmeRepository.GetByIdAsync(updateProgrammeDto.Id);
             if (programme == null)
-            {
-                return new BaseResponse<ProgrammeDto>
-                {
-                    Success = false,
-                    Message = "Programme not found.",
-                    StatusCode = 404
-                };
-            }
+                return BaseResponse<ProgrammeDto>.Failure("Programme not found", statusCode: 404);
 
             programme.ProgrammeName = updateProgrammeDto.ProgrammeName;
             programme.ProgrammeFee = updateProgrammeDto.ProgrammeFee;
@@ -139,18 +94,14 @@ namespace ACBackendAPI.Persistence.Services
             _programmeRepository.Update(programme);
             await _programmeRepository.SaveChangesAsync();
 
-            return new BaseResponse<ProgrammeDto>
+            var data = new ProgrammeDto
             {
-                Success = true,
-                Message = "Programme updated successfully",
-                StatusCode = 200,
-                Data = new ProgrammeDto
-                {
-                    Id = programme.Id,
-                    ProgrammeName = programme.ProgrammeName,
-                    ProgrammeFee = programme.ProgrammeFee
-                }
+                Id = programme.Id,
+                ProgrammeName = programme.ProgrammeName,
+                ProgrammeFee = programme.ProgrammeFee
             };
+
+            return BaseResponse<ProgrammeDto>.Succes(data, "Programme updated successfully", 200);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using ACBackendAPI.Domain.Enum;
+using System.Text.Json.Serialization;
 
 namespace ACBackendAPI.Application.Dtos
 {
@@ -23,7 +24,7 @@ namespace ACBackendAPI.Application.Dtos
         public string PhoneNumber { get; set; }
 
         [JsonPropertyName("gender")]
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
 
         [JsonPropertyName("dob")]
         public DateTime Dob { get; set; }
@@ -37,6 +38,8 @@ namespace ACBackendAPI.Application.Dtos
         [JsonPropertyName("guardianInformation")]
         public GuardianDto GuardianInformation { get; set; }
 
+
+        [JsonPropertyName("academicInformation")]
         public AcademicInformationDto AcademicInformation { get; set; }
     }
 }

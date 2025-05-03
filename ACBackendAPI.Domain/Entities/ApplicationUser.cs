@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ACBackendAPI.Domain.Enum;
+using Microsoft.AspNetCore.Identity;
 
 namespace ACBackendAPI.Domain.Entities
 {
@@ -7,7 +8,7 @@ namespace ACBackendAPI.Domain.Entities
         public string Avatar { get; set; }
         public string Surname { get; set; }
         public string LastName { get; set; }
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public string Nationality { get; set; }
         public string Address { get; set; }

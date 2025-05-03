@@ -1,10 +1,5 @@
-﻿using ACBackendAPI.Application.Common.Responses.ACBackendAPI.Application.Common.Responses;
+﻿using ACBackendAPI.Application.Common.Responses;
 using ACBackendAPI.Application.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ACBackendAPI.Application.Interfaces.IServices
 {

@@ -1,11 +1,9 @@
 ﻿using ACBackendAPI.Application.Dtos;
 using ACBackendAPI.Application.Interfaces.IServices;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACBackendAPI.WebApi.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase

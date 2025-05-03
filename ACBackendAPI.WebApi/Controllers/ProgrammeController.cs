@@ -1,9 +1,11 @@
 ﻿using ACBackendAPI.Application.Dtos;
 using ACBackendAPI.Application.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACBackendAPI.WebApi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProgrammeController : ControllerBase
@@ -15,17 +17,17 @@ namespace ACBackendAPI.WebApi.Controllers
             _programmeService = programmeService;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateProgramme([FromBody] CreateProgrammeDto dto)
+        [HttpPost("create-programme")]
+        public async Task<IActionResult> CreateProgramme([FromBody] CreateProgrammeDto createProgrammeDto)
         {
-            var response = await _programmeService.CreateProgramme(dto);
+            var response = await _programmeService.CreateProgramme(createProgrammeDto);
             if (!response.Success)
                 return BadRequest(response);
 
             return Ok(response);
         }
 
-        [HttpGet("all")]
+        [HttpGet("get-all-programme")]
         public async Task<IActionResult> GetAllProgrammes()
         {
             var response = await _programmeService.GetAllProgrammes();
