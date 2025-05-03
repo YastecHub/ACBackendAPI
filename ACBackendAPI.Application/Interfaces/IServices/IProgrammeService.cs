@@ -1,4 +1,4 @@
-﻿using ACBackendAPI.Application.Common.Responses.ACBackendAPI.Application.Common.Responses;
+﻿using ACBackendAPI.Application.Common.Responses;
 using ACBackendAPI.Application.Dtos;
 
 namespace ACBackendAPI.Application.Interfaces.IServices

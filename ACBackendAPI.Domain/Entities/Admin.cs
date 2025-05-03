@@ -1,11 +1,12 @@
 ﻿using ACBackendAPI.Domain.Entities;
+using ACBackendAPI.Domain.Enum;
 
 public class Admin : BaseEntity 
 {
     public string Email { get; set; }
     public string Avatar { get; set; }
     public string Name { get; set; }
-    public string Gender { get; set; }
+    public Gender Gender { get; set; }
     public string PhoneNumber { get; set; }
     public string Address { get; set; }
 
