@@ -8,14 +8,31 @@ namespace ACBackendAPI.Application.Validators
     {
         public AdminDtoValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(6);
-            RuleFor(x => x.Gender).NotEmpty();
-            RuleFor(x => x.PhoneNumber).NotEmpty();
-            RuleFor(x => x.Address).NotEmpty();
-            RuleFor(x => x.Nationality).NotEmpty();
-            RuleFor(x => x.Surname).NotEmpty();
+            RuleFor(x => x.Email)
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Email must be a valid email address.");
+
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Name is required.");
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Password is required.")
+                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
+
+            RuleFor(x => x.Gender)
+                .NotEmpty().WithMessage("Gender is required.");
+
+            RuleFor(x => x.PhoneNumber)
+                .NotEmpty().WithMessage("Phone number is required.");
+
+            RuleFor(x => x.Address)
+                .NotEmpty().WithMessage("Address is required.");
+
+            RuleFor(x => x.Nationality)
+                .NotEmpty().WithMessage("Nationality is required.");
+
+            RuleFor(x => x.Surname)
+                .NotEmpty().WithMessage("Surname is required.");
         }
     }
 }

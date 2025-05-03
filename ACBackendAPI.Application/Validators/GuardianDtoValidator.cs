@@ -6,11 +6,27 @@ namespace ACBackendAPI.Application.Validators
     {
         public GuardianDtoValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.Relationship).NotEmpty();
-            RuleFor(x => x.PhoneNumber).NotEmpty();
-            RuleFor(x => x.Address).NotEmpty();
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .WithMessage("Guardian name is required.");
+
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .WithMessage("Guardian email is required.")
+                .EmailAddress()
+                .WithMessage("Guardian email must be valid.");
+
+            RuleFor(x => x.Relationship)
+                .NotEmpty()
+                .WithMessage("Relationship is required.");
+
+            RuleFor(x => x.PhoneNumber)
+                .NotEmpty()
+                .WithMessage("Guardian phone number is required.");
+
+            RuleFor(x => x.Address)
+                .NotEmpty()
+                .WithMessage("Guardian address is required.");
         }
     }
 }

@@ -55,7 +55,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddValidatorsFromAssemblyContaining<StudentDtoValidator>();
+
 builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
