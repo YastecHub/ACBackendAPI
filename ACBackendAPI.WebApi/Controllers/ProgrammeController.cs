@@ -2,6 +2,8 @@
 using ACBackendAPI.Application.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace ACBackendAPI.WebApi.Controllers
 {
@@ -11,15 +13,28 @@ namespace ACBackendAPI.WebApi.Controllers
     public class ProgrammeController : ControllerBase
     {
         private readonly IProgrammeService _programmeService;
+        private readonly IValidator<CreateProgrammeDto> _createProgrammeDtoValidator;
 
-        public ProgrammeController(IProgrammeService programmeService)
+        public ProgrammeController(IProgrammeService programmeService, IValidator<CreateProgrammeDto> createProgrammeDtoValidator)
         {
             _programmeService = programmeService;
+            _createProgrammeDtoValidator = createProgrammeDtoValidator;
         }
 
         [HttpPost("create-programme")]
         public async Task<IActionResult> CreateProgramme([FromBody] CreateProgrammeDto createProgrammeDto)
         {
+            ValidationResult validationResult = await _createProgrammeDtoValidator.ValidateAsync(createProgrammeDto);
+
+            if (!validationResult.IsValid)
+            {
+                foreach (var failure in validationResult.Errors)
+                {
+                    ModelState.AddModelError(failure.PropertyName, failure.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
+
             var response = await _programmeService.CreateProgramme(createProgrammeDto);
             if (!response.Success)
                 return BadRequest(response);
