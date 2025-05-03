@@ -4,6 +4,7 @@ using ACBackendAPI.Application.Interfaces.IServices;
 using ACBackendAPI.Domain.Entities;
 using ACBackendAPI.Domain.Enum;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ACBackendAPI.Persistence.Services
 {
@@ -101,16 +102,28 @@ namespace ACBackendAPI.Persistence.Services
 
             await _userManager.AddToRoleAsync(user, Role.Student);
 
-            var guadian = new Guardian
-            {
-                Name = studentDto.GuardianInformation.Name,
-                PhoneNumber = studentDto.GuardianInformation.PhoneNumber,
-                Email = studentDto.GuardianInformation.Email,
-                Address = studentDto.GuardianInformation.Address,
-                RelationShip = studentDto.GuardianInformation.Relationship,
-            };
+            var existingGuardian = await _context.Guardians
+                                  .FirstOrDefaultAsync(g => g.Email == studentDto.GuardianInformation.Email);
 
-            _context.Guardians.Add(guadian);
+            Guardian guardian;
+            if (existingGuardian != null)
+            {
+                guardian = existingGuardian;
+            }
+
+            else
+            {
+                guardian = new Guardian
+                {
+                    Name = studentDto.GuardianInformation.Name,
+                    PhoneNumber = studentDto.GuardianInformation.PhoneNumber,
+                    Email = studentDto.GuardianInformation.Email,
+                    Address = studentDto.GuardianInformation.Address,
+                    RelationShip = studentDto.GuardianInformation.Relationship,
+                };
+            }
+
+            _context.Guardians.Add(guardian);
             await _context.SaveChangesAsync();
 
 
@@ -125,7 +138,7 @@ namespace ACBackendAPI.Persistence.Services
                 Dob = studentDto.Dob,
                 Nationality = studentDto.Nationality,
                 Address = studentDto.Address,
-                GuardianId = guadian.Id,
+                GuardianId = guardian.Id,
                 ApplicationUserId = user.Id
             };
             _context.Students.Add(student);

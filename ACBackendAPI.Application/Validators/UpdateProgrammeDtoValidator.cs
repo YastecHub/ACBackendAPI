@@ -8,8 +8,8 @@ namespace ACBackendAPI.Application.Validators
         public UpdateProgrammeDtoValidator()
         {
             RuleFor(x => x.Id)
-                           .NotEmpty().WithMessage("Programme ID is required.")
-                           .Must(id => id != Guid.Empty).WithMessage("Programme ID cannot be an empty GUID.");
+                  .NotEmpty().WithMessage("Programme ID is required.")
+                  .Must(id => id != Guid.Empty).WithMessage("Programme ID cannot be an empty GUID.");
 
             RuleFor(x => x.ProgrammeName)
                 .NotEmpty().WithMessage("Programme name is required.")
