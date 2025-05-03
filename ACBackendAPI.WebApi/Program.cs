@@ -16,20 +16,16 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy => policy.AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader());
+    options.AddPolicy("AllowAll", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
+// Add Swagger for API documentation and JWT support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ACBackendAPI", Version = "v1" });
-
-    // Enable JWT Authentication in Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "Enter 'Bearer {your_token_here}'",
@@ -38,48 +34,43 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer"
     });
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
             },
             new string[] { }
         }
     });
 });
 
+// Add FluentValidation validators
 builder.Services.AddValidatorsFromAssemblyContaining<StudentDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProgrammeDtoValidator>();
 
-
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
+// Configure EF Core to use SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+// Add Identity and Authorization services
 builder.Services.AddAuthorization()
     .AddIdentityApiEndpoints<ApplicationUser>()
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+// Register repository and services
 builder.Services.AddScoped(typeof(IAsyncRepository<,>), typeof(EfRepository<,>));
-
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProgrammeService, ProgrammeService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+// Register DTO validators
 builder.Services.AddTransient<IValidator<StudentDto>, StudentDtoValidator>();
 builder.Services.AddTransient<IValidator<AdminDto>, AdminDtoValidator>();
 builder.Services.AddTransient<IValidator<GuardianDto>, GuardianDtoValidator>();
@@ -88,6 +79,7 @@ builder.Services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
 builder.Services.AddTransient<IValidator<CreateProgrammeDto>, CreateProgrammeDtoValidator>();
 builder.Services.AddTransient<IValidator<UpdateProgrammeDto>, UpdateProgrammeDtoValidator>();
 
+// Configure JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -103,16 +95,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
-
 var app = builder.Build();
 
+// Seed roles into Identity system
 using var scope = app.Services.CreateScope();
 var roleManager = scope.ServiceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<IdentityRole<Guid>>>();
 await RoleSeeder.SeedRolesAsync(roleManager);
 
-// Configure the HTTP request pipeline.
-
+// Configure middleware pipeline
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
@@ -120,15 +110,10 @@ app.UseSwaggerUI(options =>
     options.DocumentTitle = "AC Backend API Docs";
 });
 
-
 app.UseCors("AllowAll");
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
