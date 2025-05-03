@@ -49,13 +49,14 @@ builder.Services.AddSwaggerGen(c =>
 // Add FluentValidation validators
 builder.Services.AddValidatorsFromAssemblyContaining<StudentDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProgrammeDtoValidator>();
+builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Configure EF Core to use SQL Server
+// Configure EF Core to use PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add Identity and Authorization services
 builder.Services.AddAuthorization()
