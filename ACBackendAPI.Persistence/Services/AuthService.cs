@@ -36,13 +36,14 @@ public class AuthService : IAuthService
             : null;
         var user = new ApplicationUser
         {
+            Avatar = avatarUrl,
             UserName = adminDto.Email,
             Email = adminDto.Email,
             Surname = adminDto.Surname,
             Gender = adminDto.Gender,
             Address = adminDto.Address,
-            LastName = adminDto.Name,
-            Avatar = avatarUrl,
+            FirstName = adminDto.FirstName,
+            LastName = adminDto.LastName,
             Nationality = adminDto.Nationality
         };
 
@@ -66,7 +67,9 @@ public class AuthService : IAuthService
             {
                 ApplicationUserId = user.Id,
                 Email = adminDto.Email,
-                Name = adminDto.Name,
+                Surname = adminDto.Surname,
+                FirstName = adminDto.FirstName,                
+                LastName= adminDto.LastName,
                 Avatar = avatarUrl,
                 Gender = adminDto.Gender,
                 GenderDesc = adminDto.Gender.ToString(),
@@ -140,7 +143,9 @@ public class AuthService : IAuthService
 
             Guardian guardian = existingGuardian ?? new Guardian
             {
-                Name = studentDto.GuardianInformation.Name,
+                Surname = studentDto.GuardianInformation.Surname,
+                FistName = studentDto.GuardianInformation.FirstName,
+                LastName = studentDto.GuardianInformation.LastName,
                 PhoneNumber = studentDto.GuardianInformation.PhoneNumber,
                 Email = studentDto.GuardianInformation.Email,
                 Address = studentDto.GuardianInformation.Address,
@@ -157,6 +162,7 @@ public class AuthService : IAuthService
             {
                 Avatar = avatarUrl,
                 Surname = studentDto.Surname,
+                FirstName = studentDto.FirstName,   
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Gender = studentDto.Gender,
@@ -228,9 +234,13 @@ public class AuthService : IAuthService
             Message = "Login successful",
             Data = new LoginResponseDto
             {
+                Surname = user.Surname,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Avatar = user.Avatar,
                 Email = user.Email,
-                Token = token,
-                Roles = roles.ToList()
+                Roles = roles.ToList(),
+                Token = token
             }
         };
     }

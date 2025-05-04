@@ -12,8 +12,14 @@ namespace ACBackendAPI.Application.Validators
                 .NotEmpty().WithMessage("Email is required.")
                 .EmailAddress().WithMessage("Email must be a valid email address.");
 
-            RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Name is required.");
+            RuleFor(x => x.FirstName)
+                .NotEmpty().WithMessage("FirstName is required.");
+
+            RuleFor(x => x.LastName)
+                .NotEmpty().WithMessage("LastName is required.");
+
+            RuleFor(x => x.Surname)
+                .NotEmpty().WithMessage("Surname is required.");
 
             RuleFor(x => x.Avatar)
                 .Cascade(CascadeMode.Stop)
