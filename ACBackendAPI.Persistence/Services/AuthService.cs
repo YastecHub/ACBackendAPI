@@ -14,21 +14,26 @@ public class AuthService : IAuthService
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly AppDbContext _context;
     private readonly IJwtService _jwtService;
+    private readonly ICloudinaryService _cloudinaryService;
 
     public AuthService(
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole<Guid>> roleManager,
         AppDbContext context,
-        IJwtService jwtService)
+        IJwtService jwtService, ICloudinaryService cloudinaryService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _context = context;
         _jwtService = jwtService;
+        _cloudinaryService = cloudinaryService;
     }
 
     public async Task<BaseResponse<AdminDto>> RegisterAdmin(AdminDto adminDto)
     {
+        var avatarUrl = adminDto.Avatar != null
+            ? await _cloudinaryService.UploadImageAsync(adminDto.Avatar)
+            : null;
         var user = new ApplicationUser
         {
             UserName = adminDto.Email,
@@ -37,7 +42,7 @@ public class AuthService : IAuthService
             Gender = adminDto.Gender,
             Address = adminDto.Address,
             LastName = adminDto.Name,
-            Avatar = adminDto.Avatar,
+            Avatar = avatarUrl,
             Nationality = adminDto.Nationality
         };
 
@@ -62,7 +67,7 @@ public class AuthService : IAuthService
                 ApplicationUserId = user.Id,
                 Email = adminDto.Email,
                 Name = adminDto.Name,
-                Avatar = adminDto.Avatar,
+                Avatar = avatarUrl,
                 Gender = adminDto.Gender,
                 PhoneNumber = adminDto.PhoneNumber,
                 Address = adminDto.Address
@@ -96,6 +101,9 @@ public class AuthService : IAuthService
 
     public async Task<BaseResponse<StudentDto>> RegisterStudent(StudentDto studentDto)
     {
+        var avatarUrl = studentDto.Avatar != null
+            ? await _cloudinaryService.UploadImageAsync(studentDto.Avatar)
+            : null;
         var user = new ApplicationUser
         {
             UserName = studentDto.Email,
@@ -104,7 +112,7 @@ public class AuthService : IAuthService
             Address = studentDto.Address,
             Surname = studentDto.Surname,
             LastName = studentDto.LastName,
-            Avatar = studentDto.Avatar,
+            Avatar = avatarUrl,
             DateOfBirth = DateOnly.FromDateTime(studentDto.Dob),
             Nationality = studentDto.Nationality,
             PhoneNumber = studentDto.PhoneNumber
@@ -146,7 +154,7 @@ public class AuthService : IAuthService
 
             var student = new Student
             {
-                Avatar = studentDto.Avatar,
+                Avatar = avatarUrl,
                 Surname = studentDto.Surname,
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,

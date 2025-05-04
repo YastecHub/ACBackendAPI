@@ -1,4 +1,5 @@
 ﻿using ACBackendAPI.Domain.Enum;
+using Microsoft.AspNetCore.Http;
 using System.Text.Json.Serialization;
 
 namespace ACBackendAPI.Application.Dtos
@@ -9,7 +10,7 @@ namespace ACBackendAPI.Application.Dtos
         public string Email { get; set; }
 
         [JsonPropertyName("avatar")]
-        public string Avatar { get; set; }
+        public IFormFile Avatar { get; set; }
 
         [JsonPropertyName("password")]
         public string Password { get; set; }

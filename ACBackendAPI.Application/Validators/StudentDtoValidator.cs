@@ -15,6 +15,18 @@ namespace ACBackendAPI.Application.Validators
                 .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters.");
 
+            RuleFor(x => x.Avatar)
+                .Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Avatar is required.")
+                .Must(file => file.Length <= 5 * 1024 * 1024)
+                    .WithMessage("Avatar must not exceed 5MB.")
+                .Must(file =>
+                {
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+                    return allowedExtensions.Contains(Path.GetExtension(file.FileName).ToLower());
+                })
+                    .WithMessage("Allowed image formats: JPG, JPEG, PNG, GIF, WEBP.");
+
             RuleFor(x => x.Surname)
                 .NotEmpty().WithMessage("Surname is required.");
 
