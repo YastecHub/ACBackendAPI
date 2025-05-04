@@ -5,7 +5,7 @@ namespace ACBackendAPI.Domain.Entities
 {
     public class ApplicationUser : IdentityUser<Guid>
     {
-        public string Avatar { get; set; }
+        public string? Avatar { get; set; }
         public string Surname { get; set; }
         public string LastName { get; set; }
         public Gender Gender { get; set; }
