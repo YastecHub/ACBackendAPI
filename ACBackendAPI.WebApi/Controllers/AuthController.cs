@@ -27,7 +27,7 @@ namespace ACBackendAPI.WebApi.Controllers
         }
 
         [HttpPost("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] AdminDto adminDto)
+        public async Task<IActionResult> RegisterAdmin([FromForm] AdminDto adminDto)
         {
             var validationResult = await _adminDtoValidator.ValidateAsync(adminDto);
             if (!validationResult.IsValid)
@@ -47,7 +47,7 @@ namespace ACBackendAPI.WebApi.Controllers
         }
 
         [HttpPost("register-student")]
-        public async Task<IActionResult> RegisterStudent([FromBody] StudentDto studentDto)
+        public async Task<IActionResult> RegisterStudent([FromForm] StudentDto studentDto)
         {
             var validationResult = await _studentDtoValidator.ValidateAsync(studentDto);
             if (!validationResult.IsValid)
