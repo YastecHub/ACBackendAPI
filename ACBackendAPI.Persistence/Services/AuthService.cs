@@ -69,6 +69,7 @@ public class AuthService : IAuthService
                 Name = adminDto.Name,
                 Avatar = avatarUrl,
                 Gender = adminDto.Gender,
+                GenderDesc = adminDto.Gender.ToString(),
                 PhoneNumber = adminDto.PhoneNumber,
                 Address = adminDto.Address
             };
@@ -159,6 +160,7 @@ public class AuthService : IAuthService
                 LastName = studentDto.LastName,
                 Email = studentDto.Email,
                 Gender = studentDto.Gender,
+                GenderDesc = studentDto.Gender.ToString(),
                 PhoneNumber = studentDto.PhoneNumber,
                 Dob = studentDto.Dob,
                 Nationality = studentDto.Nationality,
