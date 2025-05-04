@@ -104,11 +104,17 @@ var app = builder.Build();
 // Automatically apply migrations
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await dbContext.Database.MigrateAsync(); 
+    var services = scope.ServiceProvider;
 
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
     await RoleSeeder.SeedRolesAsync(roleManager);
+
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var seeder = new DataSeeder(dbContext, userManager, roleManager);
+    await seeder.SeedAdminAsync();
 }
 
 // Configure middleware pipeline
