@@ -6,9 +6,17 @@ namespace ACBackendAPI.Application.Validators
     {
         public GuardianDtoValidator()
         {
-            RuleFor(x => x.Name)
+            RuleFor(x => x.FirstName)
                 .NotEmpty()
-                .WithMessage("Guardian name is required.");
+                .WithMessage("Guardian FistName is required.");
+
+            RuleFor(x => x.LastName)
+                .NotEmpty()
+                .WithMessage("Guardian LastName is required.");
+
+            RuleFor(x => x.Surname)
+                .NotEmpty()
+                .WithMessage("Guardian Surname is required.");
 
             RuleFor(x => x.Email)
                 .NotEmpty()

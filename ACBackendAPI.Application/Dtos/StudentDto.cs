@@ -21,6 +21,9 @@ namespace ACBackendAPI.Application.Dtos
         [JsonPropertyName("lastName")]
         public string LastName { get; set; }
 
+        [JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
         [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
 

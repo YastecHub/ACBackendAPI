@@ -15,8 +15,14 @@ namespace ACBackendAPI.Application.Dtos
         [JsonPropertyName("password")]
         public string Password { get; set; }
 
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        [JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
+        [JsonPropertyName("lastName")]
+        public string LastName { get; set; }
+
+        [JsonPropertyName("surname")]
+        public string Surname { get; set; }
 
         [JsonPropertyName("gender")]
         public Gender Gender { get; set; }
@@ -29,8 +35,5 @@ namespace ACBackendAPI.Application.Dtos
 
         [JsonPropertyName("nationality")]
         public string Nationality { get; set; }
-
-        [JsonPropertyName("surname")]
-        public string Surname { get; set; }
     }
 }

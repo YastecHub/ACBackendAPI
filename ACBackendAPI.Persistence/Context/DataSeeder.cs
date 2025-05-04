@@ -30,6 +30,7 @@ namespace ACBackendAPI.Persistence.Context
                     Email = adminEmail,
                     Surname = "Adebola",
                     LastName = "Ade",
+                    FirstName = "AdeOlu",
                     Gender = Gender.Male,
                     DateOfBirth = new DateOnly(1980, 1, 1),
                     Nationality = "Nigeria",
@@ -43,7 +44,9 @@ namespace ACBackendAPI.Persistence.Context
 
                     var admin = new Admin
                     {
-                        Name = "Adams",
+                        FirstName = "Adams",
+                        Surname = "Adebola",
+                        LastName = "Bolatito",
                         Email = adminEmail,
                         PhoneNumber = "09068913009",
                         Address = "Admin HQ",

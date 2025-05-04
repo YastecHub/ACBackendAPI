@@ -1,6 +1,7 @@
 ﻿using ACBackendAPI.Application.Dtos;
 using ACBackendAPI.Application.Interfaces.IServices;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACBackendAPI.WebApi.Controllers
@@ -26,6 +27,7 @@ namespace ACBackendAPI.WebApi.Controllers
             _loginDtoValidator = loginDtoValidator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromForm] AdminDto adminDto)
         {
