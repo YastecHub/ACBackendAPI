@@ -52,7 +52,7 @@ namespace ACBackendAPI.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-programme-by-id/{id}")]
         public async Task<IActionResult> GetProgrammeById(Guid id)
         {
             var response = await _programmeService.GetProgrammeById(id);
@@ -62,7 +62,7 @@ namespace ACBackendAPI.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpPut("update")]
+        [HttpPut("update-programme")]
         public async Task<IActionResult> UpdateProgramme([FromBody] UpdateProgrammeDto dto)
         {
             var response = await _programmeService.UpdateProgramme(dto);
@@ -72,7 +72,7 @@ namespace ACBackendAPI.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete-programme/{id}")]
         public async Task<IActionResult> DeleteProgramme(Guid id)
         {
             var response = await _programmeService.DeleteProgramme(id);
