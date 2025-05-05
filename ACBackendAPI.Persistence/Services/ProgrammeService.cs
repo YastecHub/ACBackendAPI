@@ -21,7 +21,11 @@ namespace ACBackendAPI.Persistence.Services
             {
                 Id = Guid.NewGuid(),
                 ProgrammeName = createProgrammeDto.ProgrammeName,
-                ProgrammeFee = createProgrammeDto.ProgrammeFee
+                ProgrammeDescription = createProgrammeDto.ProgrammeDescription,
+                ProgrammeFee = createProgrammeDto.ProgrammeFee,
+                StartDate = createProgrammeDto.StartDate,
+                EndDate = createProgrammeDto.EndDate,
+                CreatedOn = DateTime.UtcNow
             };
 
             await _programmeRepository.AddAsync(programme);
@@ -31,7 +35,10 @@ namespace ACBackendAPI.Persistence.Services
             {
                 Id = programme.Id,
                 ProgrammeName = programme.ProgrammeName,
-                ProgrammeFee = programme.ProgrammeFee
+                ProgrammeDescription = programme.ProgrammeDescription,
+                ProgrammeFee = programme.ProgrammeFee,
+                StartDate = programme.StartDate,
+                EndDate = programme.EndDate 
             };
 
             return BaseResponse<ProgrammeDto>.Succes(data, "Programme created successfully", 201);
@@ -57,7 +64,10 @@ namespace ACBackendAPI.Persistence.Services
             {
                 Id = p.Id,
                 ProgrammeName = p.ProgrammeName,
-                ProgrammeFee = p.ProgrammeFee
+                ProgrammeDescription = p.ProgrammeDescription,
+                ProgrammeFee = p.ProgrammeFee,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate
             }).ToList();
 
             if (!programmeDtos.Any())
@@ -76,7 +86,10 @@ namespace ACBackendAPI.Persistence.Services
             {
                 Id = programme.Id,
                 ProgrammeName = programme.ProgrammeName,
-                ProgrammeFee = programme.ProgrammeFee
+                ProgrammeDescription = programme.ProgrammeDescription,
+                ProgrammeFee = programme.ProgrammeFee,
+                StartDate = programme.StartDate,
+                EndDate = programme.EndDate
             };
 
             return BaseResponse<ProgrammeDto>.Succes(data, "Programme retrieved successfully", 200);
@@ -90,6 +103,9 @@ namespace ACBackendAPI.Persistence.Services
 
             programme.ProgrammeName = updateProgrammeDto.ProgrammeName;
             programme.ProgrammeFee = updateProgrammeDto.ProgrammeFee;
+            programme.ProgrammeDescription = updateProgrammeDto.ProgrammeDescription;
+            programme.StartDate = updateProgrammeDto.StartDate; 
+            programme.EndDate = updateProgrammeDto.EndDate;
 
             _programmeRepository.Update(programme);
             await _programmeRepository.SaveChangesAsync();
@@ -98,7 +114,10 @@ namespace ACBackendAPI.Persistence.Services
             {
                 Id = programme.Id,
                 ProgrammeName = programme.ProgrammeName,
-                ProgrammeFee = programme.ProgrammeFee
+                ProgrammeDescription = programme.ProgrammeDescription,
+                ProgrammeFee = programme.ProgrammeFee,
+                StartDate = programme.StartDate,
+                EndDate = programme.EndDate
             };
 
             return BaseResponse<ProgrammeDto>.Succes(data, "Programme updated successfully", 200);
