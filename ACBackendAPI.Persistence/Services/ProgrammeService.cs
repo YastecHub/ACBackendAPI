@@ -23,8 +23,8 @@ namespace ACBackendAPI.Persistence.Services
                 ProgrammeName = createProgrammeDto.ProgrammeName,
                 ProgrammeDescription = createProgrammeDto.ProgrammeDescription,
                 ProgrammeFee = createProgrammeDto.ProgrammeFee,
-                StartDate = createProgrammeDto.StartDate,
-                EndDate = createProgrammeDto.EndDate,
+                StartDate = DateTimeOffset.FromUnixTimeSeconds(createProgrammeDto.StartDate).UtcDateTime,
+                EndDate = DateTimeOffset.FromUnixTimeSeconds(createProgrammeDto.EndDate).UtcDateTime,
                 CreatedOn = DateTime.UtcNow
             };
 
@@ -37,8 +37,8 @@ namespace ACBackendAPI.Persistence.Services
                 ProgrammeName = programme.ProgrammeName,
                 ProgrammeDescription = programme.ProgrammeDescription,
                 ProgrammeFee = programme.ProgrammeFee,
-                StartDate = programme.StartDate,
-                EndDate = programme.EndDate 
+                StartDate = new DateTimeOffset(programme.StartDate).ToUnixTimeSeconds(),
+                EndDate = new DateTimeOffset(programme.EndDate).ToUnixTimeSeconds()
             };
 
             return BaseResponse<ProgrammeDto>.Succes(data, "Programme created successfully", 201);
@@ -66,8 +66,8 @@ namespace ACBackendAPI.Persistence.Services
                 ProgrammeName = p.ProgrammeName,
                 ProgrammeDescription = p.ProgrammeDescription,
                 ProgrammeFee = p.ProgrammeFee,
-                StartDate = p.StartDate,
-                EndDate = p.EndDate
+                StartDate = new DateTimeOffset(p.StartDate).ToUnixTimeSeconds(),
+                EndDate = new DateTimeOffset(p.EndDate).ToUnixTimeSeconds()
             }).ToList();
 
             if (!programmeDtos.Any())
@@ -88,8 +88,8 @@ namespace ACBackendAPI.Persistence.Services
                 ProgrammeName = programme.ProgrammeName,
                 ProgrammeDescription = programme.ProgrammeDescription,
                 ProgrammeFee = programme.ProgrammeFee,
-                StartDate = programme.StartDate,
-                EndDate = programme.EndDate
+                StartDate = new DateTimeOffset(programme.StartDate).ToUnixTimeSeconds(),
+                EndDate = new DateTimeOffset(programme.EndDate).ToUnixTimeSeconds()
             };
 
             return BaseResponse<ProgrammeDto>.Succes(data, "Programme retrieved successfully", 200);
@@ -104,8 +104,8 @@ namespace ACBackendAPI.Persistence.Services
             programme.ProgrammeName = updateProgrammeDto.ProgrammeName;
             programme.ProgrammeFee = updateProgrammeDto.ProgrammeFee;
             programme.ProgrammeDescription = updateProgrammeDto.ProgrammeDescription;
-            programme.StartDate = updateProgrammeDto.StartDate; 
-            programme.EndDate = updateProgrammeDto.EndDate;
+            programme.StartDate = DateTimeOffset.FromUnixTimeSeconds(updateProgrammeDto.StartDate).UtcDateTime;
+            programme.EndDate = DateTimeOffset.FromUnixTimeSeconds(updateProgrammeDto.EndDate).UtcDateTime;
 
             _programmeRepository.Update(programme);
             await _programmeRepository.SaveChangesAsync();
@@ -116,8 +116,8 @@ namespace ACBackendAPI.Persistence.Services
                 ProgrammeName = programme.ProgrammeName,
                 ProgrammeDescription = programme.ProgrammeDescription,
                 ProgrammeFee = programme.ProgrammeFee,
-                StartDate = programme.StartDate,
-                EndDate = programme.EndDate
+                StartDate = new DateTimeOffset(programme.StartDate).ToUnixTimeSeconds(),
+                EndDate = new DateTimeOffset(programme.EndDate).ToUnixTimeSeconds()
             };
 
             return BaseResponse<ProgrammeDto>.Succes(data, "Programme updated successfully", 200);
