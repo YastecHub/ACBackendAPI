@@ -22,7 +22,7 @@ namespace ACBackendAPI.WebApi.Controllers
         }
 
         [HttpPost("create-programme")]
-        public async Task<IActionResult> CreateProgramme([FromBody] CreateProgrammeDto createProgrammeDto)
+        public async Task<IActionResult> CreateProgramme([FromForm] CreateProgrammeDto createProgrammeDto)
         {
             ValidationResult validationResult = await _createProgrammeDtoValidator.ValidateAsync(createProgrammeDto);
 
@@ -42,7 +42,7 @@ namespace ACBackendAPI.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpGet("get-all-programme")]
+        [HttpGet("get-all-programmes")]
         public async Task<IActionResult> GetAllProgrammes()
         {
             var response = await _programmeService.GetAllProgrammes();
@@ -63,7 +63,7 @@ namespace ACBackendAPI.WebApi.Controllers
         }
 
         [HttpPut("update-programme")]
-        public async Task<IActionResult> UpdateProgramme([FromBody] UpdateProgrammeDto dto)
+        public async Task<IActionResult> UpdateProgramme([FromForm] UpdateProgrammeDto dto)
         {
             var response = await _programmeService.UpdateProgramme(dto);
             if (!response.Success)
@@ -72,10 +72,19 @@ namespace ACBackendAPI.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("delete-programme/{id}")]
-        public async Task<IActionResult> DeleteProgramme(Guid id)
+        //[HttpDelete("delete-programme/{id}")]
+        //public async Task<IActionResult> DeleteProgramme(Guid id)
+        //{
+        //    var response = await _programmeService.DeleteProgramme(id);
+        //    if (!response.Success)
+        //        return NotFound(response);
+        //    return Ok(response);
+        //}
+
+        [HttpPatch("toggle-programme-status/{id}")]
+        public async Task<IActionResult> ToggleProgrammeStatus(Guid id)
         {
-            var response = await _programmeService.DeleteProgramme(id);
+            var response = await _programmeService.ToggleProgrammeStatus(id);
             if (!response.Success)
                 return NotFound(response);
 

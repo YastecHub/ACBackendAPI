@@ -10,5 +10,6 @@ namespace ACBackendAPI.Application.Interfaces.IServices
         Task<BaseResponse<ProgrammeDto>> GetProgrammeById(Guid id);
         Task<BaseResponse<ProgrammeDto>> UpdateProgramme(UpdateProgrammeDto updateProgrammeDto);
         Task<BaseResponse<bool>> DeleteProgramme(Guid id);
+        Task<BaseResponse<string>> ToggleProgrammeStatus(Guid id);
     }
 }
