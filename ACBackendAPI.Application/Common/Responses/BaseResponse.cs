@@ -12,8 +12,8 @@
         {
             return new BaseResponse<T>
             {
-                Success = true,
                 Data = data,
+                Success = true,
                 Message = message,
                 StatusCode = statusCode
             };
