@@ -1,4 +1,4 @@
-﻿namespace ACBackendAPI.Application.Settings.Email
+﻿namespace ACBackendAPI.Domain.Settings.Email
 {
     public class MailSettings
     {

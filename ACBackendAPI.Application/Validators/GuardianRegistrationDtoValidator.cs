@@ -2,9 +2,9 @@
 
 namespace ACBackendAPI.Application.Validators
 {
-    public class GuardianDtoValidator : AbstractValidator<GuardianDto>
+    public class GuardianRegistrationDtoValidator : AbstractValidator<GuardianRegistrationDto>
     {
-        public GuardianDtoValidator()
+        public GuardianRegistrationDtoValidator()
         {
             RuleFor(x => x.FirstName)
                 .NotEmpty()

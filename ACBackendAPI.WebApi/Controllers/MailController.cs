@@ -1,4 +1,4 @@
-﻿using ACBackendAPI.Application.Settings.Email;
+﻿using ACBackendAPI.Domain.Settings.Email;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ACBackendAPI.WebApi.Controllers

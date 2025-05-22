@@ -4,9 +4,9 @@ using System;
 
 namespace ACBackendAPI.Application.Validators
 {
-    public class AdminDtoValidator : AbstractValidator<AdminDto>
+    public class AdminRegistrationDtoValidator : AbstractValidator<AdminRegistrationDto>
     {
-        public AdminDtoValidator()
+        public AdminRegistrationDtoValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")

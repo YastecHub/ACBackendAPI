@@ -29,7 +29,7 @@ public class AuthService : IAuthService
         _cloudinaryService = cloudinaryService;
     }
 
-    public async Task<BaseResponse<AdminDto>> RegisterAdmin(AdminDto adminDto)
+    public async Task<BaseResponse<AdminRegistrationDto>> RegisterAdmin(AdminRegistrationDto adminDto)
     {
         var avatarUrl = adminDto.Avatar != null
             ? await _cloudinaryService.UploadImageAsync(adminDto.Avatar)
@@ -50,7 +50,7 @@ public class AuthService : IAuthService
         var result = await _userManager.CreateAsync(user, adminDto.Password);
         if (!result.Succeeded)
         {
-            return new BaseResponse<AdminDto>
+            return new BaseResponse<AdminRegistrationDto>
             {
                 Success = false,
                 Message = "Admin registration failed",
@@ -82,7 +82,7 @@ public class AuthService : IAuthService
 
             await transaction.CommitAsync();
 
-            return new BaseResponse<AdminDto>
+            return new BaseResponse<AdminRegistrationDto>
             {
                 Success = true,
                 Message = "Admin registered successfully",
@@ -94,7 +94,7 @@ public class AuthService : IAuthService
             await transaction.RollbackAsync();
             await _userManager.DeleteAsync(user);
 
-            return new BaseResponse<AdminDto>
+            return new BaseResponse<AdminRegistrationDto>
             {
                 Success = false,
                 Message = "Admin registration failed. Transaction rolled back.",
@@ -103,7 +103,7 @@ public class AuthService : IAuthService
         }
     }
 
-    public async Task<BaseResponse<StudentDto>> RegisterStudent(StudentDto studentDto)
+    public async Task<BaseResponse<StudentRegistrationDto>> RegisterStudent(StudentRegistrationDto studentDto)
     {
         var avatarUrl = studentDto.Avatar != null
             ? await _cloudinaryService.UploadImageAsync(studentDto.Avatar)
@@ -125,7 +125,7 @@ public class AuthService : IAuthService
         var result = await _userManager.CreateAsync(user, studentDto.Password);
         if (!result.Succeeded)
         {
-            return new BaseResponse<StudentDto>
+            return new BaseResponse<StudentRegistrationDto>
             {
                 Success = false,
                 Message = "Student registration failed",
@@ -144,7 +144,7 @@ public class AuthService : IAuthService
             Guardian guardian = existingGuardian ?? new Guardian
             {
                 Surname = studentDto.GuardianInformation.Surname,
-                FistName = studentDto.GuardianInformation.FirstName,
+                FirstName = studentDto.GuardianInformation.FirstName,
                 LastName = studentDto.GuardianInformation.LastName,
                 PhoneNumber = studentDto.GuardianInformation.PhoneNumber,
                 Email = studentDto.GuardianInformation.Email,
@@ -192,7 +192,7 @@ public class AuthService : IAuthService
 
             await transaction.CommitAsync();
 
-            return new BaseResponse<StudentDto>
+            return new BaseResponse<StudentRegistrationDto>
             {
                 Success = true,
                 Message = "Student registered successfully",
@@ -204,7 +204,7 @@ public class AuthService : IAuthService
             await transaction.RollbackAsync();
             await _userManager.DeleteAsync(user);
 
-            return new BaseResponse<StudentDto>
+            return new BaseResponse<StudentRegistrationDto>
             {
                 Success = false,
                 Message = "Student registration failed. Transaction rolled back.",
