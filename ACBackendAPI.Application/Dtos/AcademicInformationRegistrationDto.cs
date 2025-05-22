@@ -1,7 +1,7 @@
 ﻿using ACBackendAPI.Domain.Enum;
 using System.Text.Json.Serialization;
 
-public class AcademicInformationDto
+public class AcademicInformationRegistrationDto
 {
     public Department Department { get; set; }
     [JsonPropertyName("courseOfStudy")]

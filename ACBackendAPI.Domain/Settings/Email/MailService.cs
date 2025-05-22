@@ -1,4 +1,4 @@
-﻿using ACBackendAPI.Application.Settings.Email;
+﻿using ACBackendAPI.Domain.Settings.Email;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;

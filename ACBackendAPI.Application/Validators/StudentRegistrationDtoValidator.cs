@@ -3,9 +3,9 @@ using ACBackendAPI.Application.Dtos;
 
 namespace ACBackendAPI.Application.Validators
 {
-    public class StudentDtoValidator : AbstractValidator<StudentDto>
+    public class StudentRegistrationDtoValidator : AbstractValidator<StudentRegistrationDto>
     {
-        public StudentDtoValidator()
+        public StudentRegistrationDtoValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")
@@ -51,7 +51,7 @@ namespace ACBackendAPI.Application.Validators
                 .NotEmpty().WithMessage("Address is required.");
 
             RuleFor(x => x.GuardianInformation)
-                .SetValidator(new GuardianDtoValidator());
+                .SetValidator(new GuardianRegistrationDtoValidator());
 
             RuleFor(x => x.AcademicInformation)
                 .SetValidator(new AcademicInformationDtoValidator());

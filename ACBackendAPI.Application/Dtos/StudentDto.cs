@@ -1,49 +1,57 @@
 ﻿using ACBackendAPI.Domain.Enum;
 using Microsoft.AspNetCore.Http;
-using System.Text.Json.Serialization;
 
 namespace ACBackendAPI.Application.Dtos
 {
     public class StudentDto
     {
-        [JsonPropertyName("email")]
+        public string? Avatar { get; set; }
+        public string Surname { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public Gender Gender { get; set; }
+        public DateTime Dob { get; set; }
+        public string Nationality { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
-        [JsonPropertyName("avatar")]
-        public IFormFile Avatar { get; set; }
+        public GuardianDto Guardian { get; set; }
+        public AcademicInformationDto AcademicInformation { get; set; }
+    }
 
-        [JsonPropertyName("password")]
-        public string Password { get; set; }
-
-        [JsonPropertyName("surname")]
-        public string Surname { get; set; }
-
-        [JsonPropertyName("lastName")]
-        public string LastName { get; set; }
-
-        [JsonPropertyName("firstName")]
+    public class GuardianDto
+    {
         public string FirstName { get; set; }
-
-        [JsonPropertyName("phoneNumber")]
+        public string LastName { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public string RelationShip { get; set; }
         public string PhoneNumber { get; set; }
-
-        [JsonPropertyName("gender")]
-        public Gender Gender { get; set; }
-
-        [JsonPropertyName("dob")]
-        public DateTime Dob { get; set; }
-
-        [JsonPropertyName("nationality")]
-        public string Nationality { get; set; }
-
-        [JsonPropertyName("address")]
         public string Address { get; set; }
+    }
 
-        [JsonPropertyName("guardianInformation")]
-        public GuardianDto GuardianInformation { get; set; }
+    public class AcademicInformationDto
+    {
+        public Department Department { get; set; }
+        public string CourseOfStudy { get; set; }
+        public Guid ProgrammeId { get; set; }
+    }
 
+    public class CreateStudentDto
+    {
+        public IFormFile? Avatar { get; set; }
+        public string Surname { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public Gender Gender { get; set; }
+        public DateTime Dob { get; set; }
+        public string Nationality { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
 
-        [JsonPropertyName("academicInformation")]
+        public GuardianDto Guardian { get; set; }
         public AcademicInformationDto AcademicInformation { get; set; }
     }
 }

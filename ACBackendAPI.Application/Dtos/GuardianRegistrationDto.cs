@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-public class GuardianDto
+public class GuardianRegistrationDto
 {
     [JsonPropertyName("firstName")]
     public string FirstName { get; set; }

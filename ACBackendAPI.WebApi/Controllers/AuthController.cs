@@ -11,14 +11,14 @@ namespace ACBackendAPI.WebApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly IValidator<AdminDto> _adminDtoValidator;
-        private readonly IValidator<StudentDto> _studentDtoValidator;
+        private readonly IValidator<AdminRegistrationDto> _adminDtoValidator;
+        private readonly IValidator<StudentRegistrationDto> _studentDtoValidator;
         private readonly IValidator<LoginDto> _loginDtoValidator;
 
         public AuthController(
             IAuthService authService,
-            IValidator<AdminDto> adminDtoValidator,
-            IValidator<StudentDto> studentDtoValidator,
+            IValidator<AdminRegistrationDto> adminDtoValidator,
+            IValidator<StudentRegistrationDto> studentDtoValidator,
             IValidator<LoginDto> loginDtoValidator)
         {
             _authService = authService;
@@ -29,7 +29,7 @@ namespace ACBackendAPI.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromForm] AdminDto adminDto)
+        public async Task<IActionResult> RegisterAdmin([FromForm] AdminRegistrationDto adminDto)
         {
             var validationResult = await _adminDtoValidator.ValidateAsync(adminDto);
             if (!validationResult.IsValid)
@@ -49,7 +49,7 @@ namespace ACBackendAPI.WebApi.Controllers
         }
 
         [HttpPost("register-student")]
-        public async Task<IActionResult> RegisterStudent([FromForm] StudentDto studentDto)
+        public async Task<IActionResult> RegisterStudent([FromForm] StudentRegistrationDto studentDto)
         {
             var validationResult = await _studentDtoValidator.ValidateAsync(studentDto);
             if (!validationResult.IsValid)

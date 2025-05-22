@@ -13,14 +13,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
-using ACBackendAPI.Application.Settings.Email;
+using ACBackendAPI.Domain.Settings.Email;
+using ACBackendAPI.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    options.AddPolicy("AllowAll", policy => 
+          policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 });
 
 // Add Swagger for API documentation and JWT support
@@ -48,7 +52,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Add FluentValidation validators
-builder.Services.AddValidatorsFromAssemblyContaining<StudentDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<StudentRegistrationDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProgrammeDtoValidator>();
 builder.Configuration.AddEnvironmentVariables();
 
@@ -70,13 +74,14 @@ builder.Services.AddAuthorization()
 builder.Services.AddScoped(typeof(IAsyncRepository<,>), typeof(EfRepository<,>));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProgrammeService, ProgrammeService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Register DTO validators
-builder.Services.AddTransient<IValidator<StudentDto>, StudentDtoValidator>();
-builder.Services.AddTransient<IValidator<AdminDto>, AdminDtoValidator>();
-builder.Services.AddTransient<IValidator<GuardianDto>, GuardianDtoValidator>();
-builder.Services.AddTransient<IValidator<AcademicInformationDto>, AcademicInformationDtoValidator>();
+builder.Services.AddTransient<IValidator<StudentRegistrationDto>, StudentRegistrationDtoValidator>();
+builder.Services.AddTransient<IValidator<AdminRegistrationDto>, AdminRegistrationDtoValidator>();
+builder.Services.AddTransient<IValidator<GuardianRegistrationDto>, GuardianRegistrationDtoValidator>();
+builder.Services.AddTransient<IValidator<AcademicInformationRegistrationDto>, AcademicInformationDtoValidator>();
 builder.Services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
 builder.Services.AddTransient<IValidator<CreateProgrammeDto>, CreateProgrammeDtoValidator>();
 builder.Services.AddTransient<IValidator<UpdateProgrammeDto>, UpdateProgrammeDtoValidator>();
@@ -101,7 +106,6 @@ builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection(
 builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
-
 builder.Services.AddScoped<IMailService, MailService>();
 
 var app = builder.Build();

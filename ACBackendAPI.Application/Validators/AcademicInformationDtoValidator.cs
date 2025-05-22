@@ -3,7 +3,7 @@ using ACBackendAPI.Application.Dtos;
 
 namespace ACBackendAPI.Application.Validators
 {
-    public class AcademicInformationDtoValidator : AbstractValidator<AcademicInformationDto>
+    public class AcademicInformationDtoValidator : AbstractValidator<AcademicInformationRegistrationDto>
     {
         public AcademicInformationDtoValidator()
         {
