@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-
 namespace ACBackendAPI.Domain.Enum
 {
     public enum Department
